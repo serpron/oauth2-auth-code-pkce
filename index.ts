@@ -13,6 +13,7 @@ export interface Configuration {
   tokenUrl: URL;
   extraAuthorizationParams?: ObjStringDict;
   extraRefreshParams?: ObjStringDict;
+  clientSecret: string
 }
 
 export interface PKCECodes {
@@ -388,13 +389,17 @@ export class OAuth2AuthCodePKCE {
     if (extraRefreshParams) {
       body = `${url}&${OAuth2AuthCodePKCE.objectToQueryString(extraRefreshParams)}`
     }
-
+  	let headers:any = {
+  		'Content-Type': 'application/x-www-form-urlencoded'
+  	}
+  	
+  	if(clientSecrect){
+  	  	headers['Authorization'] = clientSecrect
+  	}
     return fetch(url, {
       method: 'POST',
       body,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
+      headers: headers
     })
     .then(res => res.status >= 400 ? res.json().then(data => Promise.reject(data)) : res.json())
     .then((json) => {
@@ -533,12 +538,18 @@ export class OAuth2AuthCodePKCE {
       + `client_id=${encodeURIComponent(clientId)}&`
       + `code_verifier=${codeVerifier}`;
 
+    let headers:any = {
+		  'Content-Type': 'application/x-www-form-urlencoded'
+  	}
+  	
+  	if(clientSecrect){
+  	  	headers['Authorization'] = clientSecrect
+  	}
+    
     return fetch(url, {
       method: 'POST',
       body,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
+      headers: headers
     })
     .then(res => {
       const jsonPromise = res.json()

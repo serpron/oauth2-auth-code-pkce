@@ -13,7 +13,7 @@ export interface Configuration {
   tokenUrl: URL;
   extraAuthorizationParams?: ObjStringDict;
   extraRefreshParams?: ObjStringDict;
-  clientSecret: string
+  clientSecret: string;
 }
 
 export interface PKCECodes {
@@ -394,7 +394,7 @@ export class OAuth2AuthCodePKCE {
   	}
   	
   	if(clientSecrect){
-  	  	headers['Authorization'] = clientSecrect
+  	  	headers['Authorization'] = clientSecrect;
   	}
     return fetch(url, {
       method: 'POST',
@@ -543,7 +543,7 @@ export class OAuth2AuthCodePKCE {
   	}
   	
   	if(clientSecrect){
-  	  	headers['Authorization'] = clientSecrect
+  	  	headers['Authorization'] = clientSecrect;
   	}
     
     return fetch(url, {

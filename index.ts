@@ -374,7 +374,7 @@ export class OAuth2AuthCodePKCE {
   public exchangeRefreshTokenForAccessToken(): Promise<AccessContext> {
     this.assertStateAndConfigArePresent();
 
-    const { extraRefreshParams, clientId, tokenUrl } = this.config;
+    const { extraRefreshParams, clientId, tokenUrl, clientSecret} = this.config;
     const { refreshToken } = this.state;
 
     if (!refreshToken) {
@@ -393,8 +393,8 @@ export class OAuth2AuthCodePKCE {
   		'Content-Type': 'application/x-www-form-urlencoded'
   	}
   	
-  	if(clientSecrect){
-  	  	headers['Authorization'] = clientSecrect;
+  	if(clientSecret){
+  	  	headers['Authorization'] = clientSecret;
   	}
     return fetch(url, {
       method: 'POST',
@@ -523,7 +523,7 @@ export class OAuth2AuthCodePKCE {
       authorizationCode = codeOverride,
       codeVerifier = ''
     } = this.state;
-    const { clientId, onInvalidGrant, redirectUrl } = this.config;
+    const { clientId, onInvalidGrant, redirectUrl, clientSecret } = this.config;
 
     if (!codeVerifier) {
       console.warn('No code verifier is being sent.');
@@ -542,8 +542,8 @@ export class OAuth2AuthCodePKCE {
 		  'Content-Type': 'application/x-www-form-urlencoded'
   	}
   	
-  	if(clientSecrect){
-  	  	headers['Authorization'] = clientSecrect;
+  	if(clientSecret){
+  	  	headers['Authorization'] = clientSecret;
   	}
     
     return fetch(url, {
